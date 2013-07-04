@@ -1,0 +1,15 @@
+.metadata
+archify/bin
+*.*~
+*.keystore
+*.iml
+*.ipr
+*.iws
+*.swp
+.rvmrc
+.idea
+*.DS_Store
+nbproject
+target
+out
+build.xml
