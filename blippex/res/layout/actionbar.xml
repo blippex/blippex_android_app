@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="fill_horizontal"
+    android:background="@color/actionbar_background"
+    android:orientation="horizontal" >
+
+    <EditText
+        android:id="@+id/search"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:background="@drawable/input_text_search"
+        android:hint="@string/input_text_search_hint"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:padding="5dp"
+        android:singleLine="true"
+        android:textColor="@android:color/black"
+        android:textColorHint="@color/input_text_search_hint" >
+    </EditText>
+
+    <Button
+        android:id="@+id/options"
+        android:layout_width="40dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:background="@drawable/options"
+        android:gravity="center" />
+
+</LinearLayout>

@@ -4,5 +4,8 @@
     <string name="app_name">blippex</string>
     <string name="action_settings">Settings</string>
     <string name="input_text_search_hint">What are you looking for?</string>
+    <string name="input_slider_dwell">Dwell factor %s%%</string>
+    <string name="input_slider_last">Seen in the last %s days</string>
+    <string name="search_nothing_found">Nothing found</string>
 
 </resources>

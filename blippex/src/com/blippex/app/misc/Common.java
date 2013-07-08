@@ -33,6 +33,15 @@ public class Common {
 		}
 		return uri;
 	}
+	
+	public static String getProtoDomain(String uri) {
+		try {
+			uri = Uri.parse(uri).buildUpon().build().getScheme() + "://" + getDomain(uri) + "/";
+		} catch (Exception e) {
+		}
+		return uri;
+	}
+
 
 	public static DefaultHttpClient getThreadSafeClient() {
 		DefaultHttpClient client = new DefaultHttpClient();

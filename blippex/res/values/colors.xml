@@ -2,8 +2,12 @@
 <resources>
 
     <color name="input_text_search_border">#6b97bf</color>
-    <color name="search_item_title">#0000FF</color>
+    <color name="input_text_search_hint">#cccccc</color>
+    <color name="search_item_title">#6B8FAF</color>
     <color name="search_item_url">#999999</color>
     <color name="search_item_text">#000000</color>
+    <color name="actionbar_background">#6B97BE</color>
+    <color name="search_panel_background">#F4F4F4</color>
+    <color name="search_panel_text">#5C8DB8</color>
 
 </resources>

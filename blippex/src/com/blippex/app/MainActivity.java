@@ -12,37 +12,56 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockActivity;
 import com.blippex.app.adapter.SearchAdapter;
 import com.blippex.app.api.SearchOptions;
 import com.blippex.app.misc.Common;
 import com.blippex.app.misc.Logger;
+import com.blippex.app.settings.Settings;
+import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
+import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Activity;
+
 import android.content.Intent;
 import android.view.KeyEvent;
-import android.view.Menu;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.RotateAnimation;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.TextView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends SherlockActivity {
 
-	private ImageView mImageLogo;
 	private EditText mEditSearch;
 	private SearchAdapter mAdapter;
 	private ListView mListView;
 	private Thread mThread;
+	private Button mButtonSearchOptions;
 	private boolean isScrolling = false;
 	private boolean isLoading = false;
+
+	private LinearLayout mSearchOptionsPanel;
+	private SeekBar mSeekDwell, mSeekSeen;
+	private View footerView = null;
+	private TextView mLabelSeen, mLabelDwell;
 
 	private String searchQuery = "";
 
@@ -51,13 +70,39 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		mImageLogo = (ImageView) findViewById(R.id.logo);
+		final ActionBar ab = getSupportActionBar();
+		ab.setDisplayShowTitleEnabled(false);
+		ab.setDisplayUseLogoEnabled(true);
+		ab.setDisplayShowHomeEnabled(true);
+		ab.setDisplayHomeAsUpEnabled(false);
+		ab.setIcon(R.drawable.logo);
+
+		ab.setCustomView(LayoutInflater.from(this).inflate(R.layout.actionbar,
+				null));
+		ab.setDisplayShowCustomEnabled(true);
+
+		mButtonSearchOptions = (Button) findViewById(R.id.options);
 		mEditSearch = (EditText) findViewById(R.id.search);
 		mListView = (ListView) findViewById(R.id.list);
+		mSearchOptionsPanel = (LinearLayout) findViewById(R.id.searchOptions);
+		mSeekDwell = (SeekBar) findViewById(R.id.dwell);
+		mSeekSeen = (SeekBar) findViewById(R.id.seen);
+		mLabelSeen = (TextView) findViewById(R.id.label_seen);
+		mLabelDwell = (TextView) findViewById(R.id.label_dwell);
 
 		mAdapter = new SearchAdapter(this, R.layout.item_default);
 		mAdapter.setNotifyOnChange(true);
 		mListView.setAdapter(mAdapter);
+		mListView.setEmptyView(findViewById(R.id.empty));
+
+		if (footerView == null) {
+
+			footerView = this.getLayoutInflater().inflate(
+					R.layout.item_loading, null);
+			// mListView.removeFooterView(footerView);
+			// mListView.addFooterView(footerView);
+			// mListView.removeFooterView(footerView);
+		}
 
 		mListView.setOnScrollListener(new OnScrollListener() {
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -100,30 +145,94 @@ public class MainActivity extends Activity {
 
 		});
 
-		setAnimation();
+		mButtonSearchOptions.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				onSearchOptions();
+			}
+		});
+
+		mSeekDwell.setProgress(Settings.dwell());
+		mSeekSeen.setProgress(Settings.seen());
+
+		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+				.cacheInMemory().cacheOnDisc().build();
+
+		if (ImageLoader.getInstance().isInited()) {
+			ImageLoader.getInstance().destroy();
+		}
+
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+				getApplicationContext())
+				.defaultDisplayImageOptions(defaultOptions).threadPoolSize(5)
+				.threadPriority(Thread.NORM_PRIORITY)
+				.denyCacheImageMultipleSizesInMemory()
+				.memoryCache(new UsingFreqLimitedMemoryCache(2 * 1024 * 1024))
+				.discCacheFileNameGenerator(new HashCodeFileNameGenerator())
+				.build();
+
+		ImageLoader.getInstance().init(config);
+
 		setSearchHandler();
+		updateLabels();
 
-	}
-
-	private void setAnimation() {
-		Animation mAnimation = AnimationUtils.loadAnimation(this,
-				R.anim.logo_start);
-		mImageLogo.startAnimation(mAnimation);
 	}
 
 	private void setSearchHandler() {
 		mEditSearch.setImeActionLabel("Search", KeyEvent.KEYCODE_ENTER);
 		mEditSearch.setOnKeyListener(new EditText.OnKeyListener() {
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
-				if (event.getAction() != KeyEvent.ACTION_DOWN) {
-					return true;
-				} else if (keyCode == KeyEvent.KEYCODE_ENTER) {
-					mImageLogo.setVisibility(View.GONE);
-					mListView.setVisibility(View.VISIBLE);
+				if (keyCode == KeyEvent.KEYCODE_ENTER
+						&& event.getAction() == KeyEvent.ACTION_DOWN) {
 					onClear();
 					onSearch();
+					return true;
 				}
 				return false;
+			}
+		});
+
+		mSeekDwell.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				Settings.dwell((int) Math.round(seekBar.getProgress()));
+				updateLabels();
+				onClear();
+				onSearch();
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+
+			}
+
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+			}
+		});
+
+		mSeekSeen.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				Settings.seen((int) Math.round(seekBar.getProgress()));
+				updateLabels();
+				onClear();
+				onSearch();
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+
+			}
+
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+
 			}
 		});
 	}
@@ -131,6 +240,7 @@ public class MainActivity extends Activity {
 	private void onClear() {
 		this.runOnUiThread(new Runnable() {
 			public void run() {
+				SearchOptions.offset = 0;
 				mAdapter.clear();
 				mAdapter.notifyDataSetChanged();
 			}
@@ -152,28 +262,34 @@ public class MainActivity extends Activity {
 	private void onResult(JSONObject data) {
 		final JSONArray results = data.optJSONArray("results");
 
-		SearchOptions.offset += data.optInt("hits_displayed");
-		SearchOptions.total = data.optInt("total");
+		if (data.optInt("hits_displayed") > 0) {
+			SearchOptions.offset += data.optInt("hits_displayed");
+			SearchOptions.total = data.optInt("total");
 
-		this.runOnUiThread(new Runnable() {
-			public void run() {
-				try {
-					mAdapter.setResults(results);
-					mAdapter.notifyDataSetChanged();
-					isLoading = false;
-				} catch (JSONException e) {
-					e.printStackTrace();
+			this.runOnUiThread(new Runnable() {
+				public void run() {
+					try {
+						mAdapter.setResults(results);
+						mAdapter.notifyDataSetChanged();
+						isLoading = false;
+						if (footerView != null && mListView != null) {
+							// mListView.removeFooterView(footerView);
+						}
+						toggleLoading(false);
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+
 				}
+			});
 
-			}
-		});
-
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
+		} else {
+			this.runOnUiThread(new Runnable() {
+				public void run() {
+					toggleLoading(false);
+				}
+			});
+		}
 	}
 
 	private JSONObject loadData() {
@@ -181,6 +297,24 @@ public class MainActivity extends Activity {
 			mThread.interrupt();
 		}
 		Logger.getDefault().info(buildQuery());
+
+		runOnUiThread(new Runnable() {
+			public void run() {
+				try {
+					mListView.getEmptyView().findViewById(R.id.textEmpty)
+							.setVisibility(View.GONE);
+					if (SearchOptions.offset == 0) {
+						// mListView.addFooterView(footerView);
+						mListView.getEmptyView()
+								.findViewById(R.id.progressEmpty)
+								.setVisibility(View.VISIBLE);
+					}
+				} catch (Exception e) {
+
+				}
+			}
+		});
+
 		HttpGet request = new HttpGet(buildQuery());
 
 		StringBuilder builder = new StringBuilder();
@@ -224,9 +358,62 @@ public class MainActivity extends Activity {
 		uri.appendQueryParameter("q", searchQuery);
 		uri.appendQueryParameter("highlight", "1");
 		uri.appendQueryParameter("limit", "20");
+		uri.appendQueryParameter("d", Integer.toString((Settings.seen() + 1)));
+		uri.appendQueryParameter("w", Integer.toString(Settings.dwell()));
 		uri.appendQueryParameter("offset",
 				Integer.toString(SearchOptions.offset));
-		Logger.getDefault().debug(uri.build().toString());
 		return uri.build().toString();
+	}
+
+	private void onSearchOptions() {
+		if (mSearchOptionsPanel.getVisibility() == View.GONE) {
+			mSearchOptionsPanel.setVisibility(View.VISIBLE);
+			Animation animation1 = AnimationUtils.loadAnimation(this,
+					R.anim.options_start);
+
+			RotateAnimation ra = new RotateAnimation(0, 90,
+					Animation.RELATIVE_TO_SELF, 0.5f,
+					Animation.RELATIVE_TO_SELF, 0.5f);
+			ra.setFillAfter(true);
+			ra.setDuration(200);
+
+			mButtonSearchOptions.startAnimation(ra);
+
+			mSearchOptionsPanel.startAnimation(animation1);
+		} else {
+			Animation animation1 = AnimationUtils.loadAnimation(this,
+					R.anim.options_end);
+			RotateAnimation ra = new RotateAnimation(90, 0,
+					Animation.RELATIVE_TO_SELF, 0.5f,
+					Animation.RELATIVE_TO_SELF, 0.5f);
+			ra.setFillAfter(true);
+			ra.setDuration(200);
+
+			mButtonSearchOptions.startAnimation(ra);
+
+			mSearchOptionsPanel.startAnimation(animation1);
+			mSearchOptionsPanel.setVisibility(View.GONE);
+		}
+	}
+
+	public void toggleLoading(boolean isLoading) {
+		mListView.getEmptyView().findViewById(R.id.textEmpty)
+				.setVisibility(isLoading ? View.GONE : View.VISIBLE);
+		mListView.getEmptyView().findViewById(R.id.progressEmpty)
+				.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+	}
+
+	private void updateLabels() {
+		mLabelDwell.setText(String.format(
+				getResources().getString(R.string.input_slider_dwell),
+				Settings.dwell()));
+		mLabelSeen.setText(String.format(
+				getResources().getString(R.string.input_slider_last),
+				Settings.seen() + 1));
+	}
+
+	@Override
+	public void onBackPressed() {
+		finish();
 	}
 }

@@ -6,7 +6,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.blippex.app.Blippex;
 import com.blippex.app.R;
+import com.blippex.app.misc.BlippexImageLoader;
 import com.blippex.app.misc.Common;
 
 import android.content.Context;
@@ -70,12 +72,13 @@ public class SearchAdapter extends ArrayAdapter<JSONObject> {
 			viewHolder.title = (TextView)convertView.findViewById(R.id.title);
 			viewHolder.url = (TextView)convertView.findViewById(R.id.url);
 			viewHolder.text = (TextView)convertView.findViewById(R.id.text);
+			viewHolder.favicon = (ImageView) convertView.findViewById(R.id.favicon);
 			convertView.setTag(viewHolder);
 		} else  {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 		if (viewHolder != null){
-			//loadImage(context, viewHolder.screenshot, item, ArchifyImageLoader.getImageUrl(item));
+			BlippexImageLoader.loadImage(Blippex.getAppContext(), viewHolder.favicon, item, BlippexImageLoader.getImageUrl(item));
 			viewHolder.title.setText(Html.fromHtml(Common.addTextHighlighting(item.optString("title"))));
 			if (viewHolder.url != null){
 				viewHolder.url.setText(Html.fromHtml(Common.addTextHighlighting(Common.getDomain(item.optString("url")))));
