@@ -68,7 +68,7 @@ public class MainActivity extends SherlockActivity {
 
 	private String searchQuery = "";
 	
-	private Typeface mFont = Typeface.createFromAsset(getAssets(), "fonts/PT_Sans-Web-Regular.ttf");
+	private Typeface mFont;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +85,8 @@ public class MainActivity extends SherlockActivity {
 		ab.setCustomView(LayoutInflater.from(this).inflate(R.layout.actionbar,
 				null));
 		ab.setDisplayShowCustomEnabled(true);
+		
+		mFont = Typeface.createFromAsset(getAssets(), "fonts/PT_Sans-Web-Regular.ttf");
 
 		mButtonSearchOptions = (Button) findViewById(R.id.options);
 		mEditSearch = (EditText) findViewById(R.id.search);
@@ -98,6 +100,7 @@ public class MainActivity extends SherlockActivity {
 		mEditSearch.setTypeface(mFont);
 		mLabelSeen.setTypeface(mFont);
 		mLabelDwell.setTypeface(mFont);
+		((TextView)findViewById(R.id.textEmpty)).setTypeface(mFont);
 
 		mAdapter = new SearchAdapter(this, R.layout.item_default);
 		mAdapter.setNotifyOnChange(true);
