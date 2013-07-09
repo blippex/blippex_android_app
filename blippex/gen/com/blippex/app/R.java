@@ -9,8 +9,10 @@ package com.blippex.app;
 
 public final class R {
     public static final class anim {
-        public static final int options_end=0x7f040000;
-        public static final int options_start=0x7f040001;
+        public static final int left_in=0x7f040000;
+        public static final int left_out=0x7f040001;
+        public static final int options_end=0x7f040002;
+        public static final int options_start=0x7f040003;
     }
     public static final class attr {
         /**  Custom divider drawable to use for elements in the action bar. 
@@ -924,6 +926,7 @@ containing a value of this type.
         public static final int options=0x7f020073;
         public static final int seekbar=0x7f020074;
         public static final int seekbar_thumb=0x7f020075;
+        public static final int splash=0x7f020076;
     }
     public static final class id {
         public static final int abs__action_bar=0x7f050020;
@@ -1026,6 +1029,7 @@ containing a value of this type.
         public static final int item_loading=0x7f030018;
         public static final int sherlock_spinner_dropdown_item=0x7f030019;
         public static final int sherlock_spinner_item=0x7f03001a;
+        public static final int splash=0x7f03001b;
     }
     public static final class menu {
         public static final int main=0x7f0c0000;
@@ -1078,7 +1082,7 @@ containing a value of this type.
         public static final int search_nothing_found=0x7f0a0012;
     }
     public static final class style {
-        public static final int MyActionBar=0x7f0b005a;
+        public static final int MyActionBar=0x7f0b005b;
         public static final int Sherlock___TextAppearance_Small=0x7f0b0046;
         public static final int Sherlock___Theme=0x7f0b0051;
         public static final int Sherlock___Theme_DarkActionBar=0x7f0b0053;
@@ -1116,12 +1120,13 @@ containing a value of this type.
         public static final int TextAppearance_Sherlock_Widget_PopupMenu_Large=0x7f0b0040;
         public static final int TextAppearance_Sherlock_Widget_PopupMenu_Small=0x7f0b0042;
         public static final int TextAppearance_Sherlock_Widget_TextView_SpinnerItem=0x7f0b0044;
-        public static final int Theme_Blippex=0x7f0b0059;
+        public static final int Theme_Blippex=0x7f0b005a;
         public static final int Theme_Sherlock=0x7f0b0054;
         public static final int Theme_Sherlock_Light=0x7f0b0055;
         public static final int Theme_Sherlock_Light_DarkActionBar=0x7f0b0056;
         public static final int Theme_Sherlock_Light_NoActionBar=0x7f0b0058;
         public static final int Theme_Sherlock_NoActionBar=0x7f0b0057;
+        public static final int Theme_Splash=0x7f0b0059;
         public static final int Widget=0x7f0b0000;
         public static final int Widget_Sherlock_ActionBar=0x7f0b0002;
         public static final int Widget_Sherlock_ActionBar_Solid=0x7f0b0003;

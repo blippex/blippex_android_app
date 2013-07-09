@@ -1,4 +1,4 @@
-package com.blippex.app;
+package com.blippex.app.ui;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
+import com.blippex.app.R;
 import com.blippex.app.adapter.SearchAdapter;
 import com.blippex.app.api.SearchOptions;
 import com.blippex.app.misc.Common;
@@ -359,7 +360,7 @@ public class MainActivity extends SherlockActivity {
 		uri.appendQueryParameter("highlight", "1");
 		uri.appendQueryParameter("limit", "20");
 		uri.appendQueryParameter("d", Integer.toString((Settings.seen() + 1)));
-		uri.appendQueryParameter("w", Integer.toString(Settings.dwell()));
+		uri.appendQueryParameter("w", Integer.toString(100 - Settings.dwell()));
 		uri.appendQueryParameter("offset",
 				Integer.toString(SearchOptions.offset));
 		return uri.build().toString();
