@@ -12,6 +12,7 @@ import com.blippex.app.misc.BlippexImageLoader;
 import com.blippex.app.misc.Common;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 
 public class SearchAdapter extends ArrayAdapter<JSONObject> {
 	private ArrayList<JSONObject> data = new ArrayList<JSONObject>();
+	private Typeface mFont = Typeface.createFromAsset(Blippex.getAppContext().getAssets(), "fonts/PT_Sans-Web-Regular.ttf");
 	
 	static class ViewHolder {
 		public TextView title = null;
@@ -84,6 +86,9 @@ public class SearchAdapter extends ArrayAdapter<JSONObject> {
 				viewHolder.url.setText(Html.fromHtml(Common.addTextHighlighting(Common.getDomain(item.optString("url")))));
 			}
 			viewHolder.text.setText(Html.fromHtml(Common.addTextHighlighting(item.optString("highlight"))));
+			viewHolder.title.setTypeface(mFont);
+			viewHolder.url.setTypeface(mFont);
+			viewHolder.text.setTypeface(mFont);
 		}
 		return convertView;
 	}
