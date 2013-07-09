@@ -924,9 +924,10 @@ containing a value of this type.
         public static final int input_text_search=0x7f020071;
         public static final int logo=0x7f020072;
         public static final int options=0x7f020073;
-        public static final int seekbar=0x7f020074;
-        public static final int seekbar_thumb=0x7f020075;
-        public static final int splash=0x7f020076;
+        public static final int seek=0x7f020074;
+        public static final int seekbar=0x7f020075;
+        public static final int seekbar_thumb=0x7f020076;
+        public static final int splash=0x7f020077;
     }
     public static final class id {
         public static final int abs__action_bar=0x7f050020;

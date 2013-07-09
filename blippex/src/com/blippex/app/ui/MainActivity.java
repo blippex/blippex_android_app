@@ -45,6 +45,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SeekBar;
@@ -57,7 +58,7 @@ public class MainActivity extends SherlockActivity {
 	private SearchAdapter mAdapter;
 	private ListView mListView;
 	private Thread mThread;
-	private Button mButtonSearchOptions;
+	private ImageButton mButtonSearchOptions;
 	private boolean isScrolling = false;
 	private boolean isLoading = false;
 
@@ -88,7 +89,7 @@ public class MainActivity extends SherlockActivity {
 		
 		mFont = Typeface.createFromAsset(getAssets(), "fonts/PT_Sans-Web-Regular.ttf");
 
-		mButtonSearchOptions = (Button) findViewById(R.id.options);
+		mButtonSearchOptions = (ImageButton) findViewById(R.id.options);
 		mEditSearch = (EditText) findViewById(R.id.search);
 		mListView = (ListView) findViewById(R.id.list);
 		mSearchOptionsPanel = (LinearLayout) findViewById(R.id.searchOptions);

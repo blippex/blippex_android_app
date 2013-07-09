@@ -1,11 +1,27 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="line" >
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <corners android:radius="5dp" />
+    <item android:id="@android:id/background">
+        <nine-patch
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:dither="true"
+            android:src="@drawable/seek" />
+    </item>
+    <item android:id="@android:id/secondaryProgress">
+        <clip>
+            <nine-patch
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:dither="true"
+                android:src="@drawable/seek" />
+        </clip>
+    </item>
+    <item android:id="@android:id/progress">
+        <clip>
+            <nine-patch
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:dither="true"
+                android:src="@drawable/seek" />
+        </clip>
+    </item>
 
-    <stroke
-        android:width="5dp"
-        android:color="#84BFF9" />
-
-</shape>
+</layer-list>

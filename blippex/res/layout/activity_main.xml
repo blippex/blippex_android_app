@@ -5,12 +5,13 @@
     android:layout_height="fill_parent"
     android:layout_gravity="center"
     android:background="@android:color/white"
+    android:gravity="center_vertical"
     android:orientation="vertical" >
 
     <LinearLayout
         android:id="@+id/searchOptions"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:background="@color/search_panel_background"
         android:baselineAligned="false"
         android:orientation="horizontal"
@@ -26,10 +27,10 @@
             android:orientation="vertical" >
 
             <TextView
-                android:paddingLeft="20dp"
                 android:id="@+id/label_dwell"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
                 android:text="@string/input_slider_dwell"
                 android:textColor="@color/search_panel_text"
                 android:textStyle="bold" />
@@ -39,6 +40,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
                 android:progressDrawable="@drawable/seekbar"
                 android:thumb="@drawable/seekbar_thumb" />
         </LinearLayout>
@@ -63,6 +66,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:max="89"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
                 android:progressDrawable="@drawable/seekbar"
                 android:thumb="@drawable/seekbar_thumb" />
         </LinearLayout>

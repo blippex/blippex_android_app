@@ -10,7 +10,10 @@
         android:id="@+id/search"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="15dp"
         android:background="@drawable/input_text_search"
         android:hint="@string/input_text_search_hint"
         android:imeOptions="actionSearch"
@@ -21,9 +24,12 @@
         android:textColorHint="@color/input_text_search_hint" >
     </EditText>
 
-    <Button
+    <ImageButton
+        android:layout_weight="1"
+        android:scaleType="center"
+        android:padding="10dp"
         android:id="@+id/options"
-        android:layout_width="40dp"
+        android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:background="@drawable/options"
