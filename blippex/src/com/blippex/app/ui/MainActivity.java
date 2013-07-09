@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
+import com.blippex.app.Blippex;
 import com.blippex.app.R;
 import com.blippex.app.adapter.SearchAdapter;
 import com.blippex.app.api.SearchOptions;
@@ -30,6 +31,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,6 +67,8 @@ public class MainActivity extends SherlockActivity {
 	private TextView mLabelSeen, mLabelDwell;
 
 	private String searchQuery = "";
+	
+	private Typeface mFont = Typeface.createFromAsset(getAssets(), "fonts/PT_Sans-Web-Regular.ttf");
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +94,10 @@ public class MainActivity extends SherlockActivity {
 		mSeekSeen = (SeekBar) findViewById(R.id.seen);
 		mLabelSeen = (TextView) findViewById(R.id.label_seen);
 		mLabelDwell = (TextView) findViewById(R.id.label_dwell);
+		
+		mEditSearch.setTypeface(mFont);
+		mLabelSeen.setTypeface(mFont);
+		mLabelDwell.setTypeface(mFont);
 
 		mAdapter = new SearchAdapter(this, R.layout.item_default);
 		mAdapter.setNotifyOnChange(true);
