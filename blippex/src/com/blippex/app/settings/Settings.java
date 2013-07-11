@@ -8,7 +8,7 @@ public class Settings {
 	private static final String PREF_DWELL = "PREF_DWELL";
 	private static final String PREF_SEEN = "PREF_SEEN";
 	
-	private static final Integer PREF_DWELL_DEF = 10;
+	private static final Integer PREF_DWELL_DEF = 90;
 	private static final Integer PREF_DWELL_SEEN = 30;
 
 	public static Integer dwell() {

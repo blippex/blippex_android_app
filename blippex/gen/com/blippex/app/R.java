@@ -920,14 +920,15 @@ containing a value of this type.
         public static final int abs__textfield_searchview_right_holo_dark=0x7f02006d;
         public static final int abs__textfield_searchview_right_holo_light=0x7f02006e;
         public static final int abs__toast_frame=0x7f02006f;
-        public static final int ic_launcher=0x7f020070;
-        public static final int input_text_search=0x7f020071;
-        public static final int logo=0x7f020072;
-        public static final int options=0x7f020073;
-        public static final int seek=0x7f020074;
-        public static final int seekbar=0x7f020075;
-        public static final int seekbar_thumb=0x7f020076;
-        public static final int splash=0x7f020077;
+        public static final int empty=0x7f020070;
+        public static final int ic_launcher=0x7f020071;
+        public static final int input_text_search=0x7f020072;
+        public static final int logo=0x7f020073;
+        public static final int options=0x7f020074;
+        public static final int seek=0x7f020075;
+        public static final int seekbar=0x7f020076;
+        public static final int seekbar_thumb=0x7f020077;
+        public static final int splash=0x7f020078;
     }
     public static final class id {
         public static final int abs__action_bar=0x7f050020;
@@ -1080,6 +1081,7 @@ containing a value of this type.
         public static final int input_slider_dwell=0x7f0a0010;
         public static final int input_slider_last=0x7f0a0011;
         public static final int input_text_search_hint=0x7f0a000f;
+        public static final int search_make_search=0x7f0a0013;
         public static final int search_nothing_found=0x7f0a0012;
     }
     public static final class style {

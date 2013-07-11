@@ -9,6 +9,8 @@
         <item name="actionBarStyle">@style/MyActionBar</item>
         <item name="actionBarSize">80dip</item>
         <item name="android:actionBarSize">80dip</item>
+        <item name="android:homeAsUpIndicator">@drawable/empty</item>
+        <item name="homeAsUpIndicator">@drawable/empty</item>
     </style>
 
     <style name="MyActionBar" parent="Widget.Sherlock.Light.ActionBar">

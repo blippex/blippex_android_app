@@ -14,7 +14,7 @@ import org.json.JSONObject;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
-import com.blippex.app.Blippex;
+import com.actionbarsherlock.view.MenuItem;
 import com.blippex.app.R;
 import com.blippex.app.adapter.SearchAdapter;
 import com.blippex.app.api.SearchOptions;
@@ -43,7 +43,6 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -68,7 +67,7 @@ public class MainActivity extends SherlockActivity {
 	private TextView mLabelSeen, mLabelDwell;
 
 	private String searchQuery = "";
-	
+
 	private Typeface mFont;
 
 	@Override
@@ -80,14 +79,15 @@ public class MainActivity extends SherlockActivity {
 		ab.setDisplayShowTitleEnabled(false);
 		ab.setDisplayUseLogoEnabled(true);
 		ab.setDisplayShowHomeEnabled(true);
-		ab.setDisplayHomeAsUpEnabled(false);
+		ab.setDisplayHomeAsUpEnabled(true);
 		ab.setIcon(R.drawable.logo);
 
 		ab.setCustomView(LayoutInflater.from(this).inflate(R.layout.actionbar,
 				null));
 		ab.setDisplayShowCustomEnabled(true);
-		
-		mFont = Typeface.createFromAsset(getAssets(), "fonts/PT_Sans-Web-Regular.ttf");
+
+		mFont = Typeface.createFromAsset(getAssets(),
+				"fonts/PT_Sans-Web-Regular.ttf");
 
 		mButtonSearchOptions = (ImageButton) findViewById(R.id.options);
 		mEditSearch = (EditText) findViewById(R.id.search);
@@ -97,11 +97,11 @@ public class MainActivity extends SherlockActivity {
 		mSeekSeen = (SeekBar) findViewById(R.id.seen);
 		mLabelSeen = (TextView) findViewById(R.id.label_seen);
 		mLabelDwell = (TextView) findViewById(R.id.label_dwell);
-		
+
 		mEditSearch.setTypeface(mFont);
 		mLabelSeen.setTypeface(mFont);
 		mLabelDwell.setTypeface(mFont);
-		((TextView)findViewById(R.id.textEmpty)).setTypeface(mFont);
+		((TextView) findViewById(R.id.textEmpty)).setTypeface(mFont);
 
 		mAdapter = new SearchAdapter(this, R.layout.item_default);
 		mAdapter.setNotifyOnChange(true);
@@ -224,6 +224,9 @@ public class MainActivity extends SherlockActivity {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress,
 					boolean fromUser) {
+				mLabelDwell.setText(String.format(
+						getResources().getString(R.string.input_slider_dwell),
+						progress));
 			}
 		});
 
@@ -245,7 +248,9 @@ public class MainActivity extends SherlockActivity {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress,
 					boolean fromUser) {
-
+				mLabelSeen.setText(String.format(
+						getResources().getString(R.string.input_slider_last),
+						progress+1));
 			}
 		});
 	}
@@ -273,6 +278,11 @@ public class MainActivity extends SherlockActivity {
 	}
 
 	private void onResult(JSONObject data) {
+		TextView emptyText = (TextView) mListView.getEmptyView().findViewById(
+				R.id.textEmpty);
+		emptyText.setText(getResources().getString(
+				R.string.search_nothing_found));
+
 		final JSONArray results = data.optJSONArray("results");
 
 		if (data.optInt("hits_displayed") > 0) {
@@ -426,7 +436,17 @@ public class MainActivity extends SherlockActivity {
 	}
 
 	@Override
-	public void onBackPressed() {
-		finish();
+	public boolean onOptionsItemSelected(MenuItem item) {
+		Logger.getDefault().info("options selected " + item.getItemId());
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			startActivity(new Intent(Intent.ACTION_VIEW,
+					Uri.parse("https://www.blippex.org/about")));
+			break;
+		default:
+			super.onOptionsItemSelected(item);
+		}
+		return true;
 	}
+
 }

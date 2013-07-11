@@ -11,27 +11,23 @@
     <LinearLayout
         android:id="@+id/searchOptions"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         android:background="@color/search_panel_background"
         android:baselineAligned="false"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding="10dp"
         android:paddingTop="25dp"
-        android:visibility="gone"
-        android:weightSum="2" >
+        android:visibility="gone" >
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
             android:orientation="vertical" >
 
             <TextView
                 android:id="@+id/label_dwell"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="20dp"
                 android:text="@string/input_slider_dwell"
                 android:textColor="@color/search_panel_text"
                 android:textStyle="bold" />
@@ -40,7 +36,6 @@
                 android:id="@+id/dwell"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp"
                 android:progressDrawable="@drawable/seekbar"
@@ -48,10 +43,8 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
             android:orientation="vertical" >
 
             <TextView
@@ -66,7 +59,6 @@
                 android:id="@+id/seen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:max="89"
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp"
@@ -97,7 +89,7 @@
             android:layout_height="fill_parent"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="@string/search_nothing_found"
+            android:text="@string/search_make_search"
             android:textAppearance="@android:style/TextAppearance.Medium"
             android:textColor="@color/search_item_url" />
 
