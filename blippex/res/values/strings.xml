@@ -7,5 +7,6 @@
     <string name="input_slider_dwell">Dwell factor %s%%</string>
     <string name="input_slider_last">Seen in the last %s days</string>
     <string name="search_nothing_found">Nothing found</string>
+    <string name="search_make_search">Please type in a search term</string>
 
 </resources>
