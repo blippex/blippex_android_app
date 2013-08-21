@@ -363,13 +363,16 @@ public class MainActivity extends SherlockActivity {
 				// error occured
 			}
 			response.getEntity().consumeContent();
+			Logger.getDefault().debug("Content" + builder.toString());
 		} catch (Exception e) {
+			Logger.getDefault().debug(e.getMessage());
 			isLoading = false;
 		}
 		try {
 			return new JSONObject(builder.toString());
 		} catch (JSONException e) {
 			e.printStackTrace();
+			Logger.getDefault().debug("EMPTY");
 			isLoading = false;
 			return new JSONObject();
 		}

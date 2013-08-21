@@ -53,7 +53,6 @@ public class BlippexImageLoader {
 	}
 	
 	public static String getImageUrl(JSONObject item){
-		Logger.getDefault().info(String.format("https://api.blippex.org/%s?defaulticon=lightpng", Common.getProtoDomain(item.optString("url"))));
-		return String.format("https://api.blippex.org/%s?defaulticon=lightpng", Common.getProtoDomain(item.optString("url")));
+		return String.format("https://getfavicon.appspot.com/%s?defaulticon=https://blippex.org/css/img/default-favicon.png", Common.getProtoDomain(item.optString("url")));
 	}
 }
