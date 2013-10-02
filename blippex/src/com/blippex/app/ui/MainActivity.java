@@ -278,10 +278,15 @@ public class MainActivity extends SherlockActivity {
 	}
 
 	private void onResult(JSONObject data) {
-		TextView emptyText = (TextView) mListView.getEmptyView().findViewById(
-				R.id.textEmpty);
-		emptyText.setText(getResources().getString(
-				R.string.search_nothing_found));
+		
+		this.runOnUiThread(new Runnable() {
+			public void run() {
+				TextView emptyText = (TextView) mListView.getEmptyView().findViewById(
+						R.id.textEmpty);
+				emptyText.setText(getResources().getString(
+						R.string.search_nothing_found));
+			}
+		});
 
 		final JSONArray results = data.optJSONArray("results");
 
